@@ -299,8 +299,39 @@
             </div>
         </section>
 
-        <!-- 右侧内部专属区 -->
-        <aside class="internal-panel right-panel" aria-label="内部质量报告">
+        <!-- 右侧：企业介绍（未登录时显示） -->
+        <aside class="internal-panel right-panel" id="companyIntroPanel" aria-label="企业介绍">
+            <h3 class="panel-title">
+                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/></svg>
+                企业介绍
+            </h3>
+            <div class="company-intro-card">
+                <div class="intro-item">
+                    <div class="intro-item-icon">&#127970;</div>
+                    <div class="intro-item-body">
+                        <h4>公司定位</h4>
+                        <p>京东科技（JD Cloud & AI）是京东集团旗下专注于以技术赋能产业数字化的核心业务板块，致力于为企业与政府机构提供安全、可靠、高效的云计算、人工智能与数字化解决方案。</p>
+                    </div>
+                </div>
+                <div class="intro-item">
+                    <div class="intro-item-icon">&#128737;&#65039;</div>
+                    <div class="intro-item-body">
+                        <h4>核心能力</h4>
+                        <p>依托京东集团扎实的供应链与电商场景沉淀，构建起"云智超一体化"技术底座，在混合云、大数据、AI 大模型、物联网与安全合规领域具备全栈式服务能力，满足各行业数字化转型需求。</p>
+                    </div>
+                </div>
+                <div class="intro-item">
+                    <div class="intro-item-icon">&#129309;</div>
+                    <div class="intro-item-body">
+                        <h4>价值主张</h4>
+                        <p>以"技术驱动产业效率提升"为使命，助力企业实现降本增效、业务创新与风险可控，在零售、物流、金融、政务等领域积累了大量可复用的最佳实践，与客户共建数字生态。</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 右侧：内部质量报告（登录后显示） -->
+        <aside class="internal-panel right-panel hidden" id="internalReportPanel" aria-label="内部质量报告">
             <div class="panel-locked" id="panelLocked">
                 <div class="lock-icon-large" aria-hidden="true">
                     <svg viewBox="0 0 24 24" width="40" height="40"><path fill="currentColor" d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>

@@ -378,9 +378,11 @@
             Utils.show(Utils.$('userInfo'));
             Utils.$('username').textContent = Auth.username || 'admin';
 
-            // 解锁内部面板
+            // 解锁内部面板：隐藏企业介绍，显示内部质量报告
             Utils.hide(Utils.$('panelLocked'));
             Utils.show(Utils.$('panelContent'));
+            if (Utils.$('companyIntroPanel')) Utils.hide(Utils.$('companyIntroPanel'));
+            if (Utils.$('internalReportPanel')) Utils.show(Utils.$('internalReportPanel'));
 
             this.loadInternalData();
             
@@ -395,6 +397,10 @@
             Utils.hide(Utils.$('userInfo'));
             Utils.hide(Utils.$('panelContent'));
             Utils.show(Utils.$('panelLocked'));
+            
+            // 退出登录：显示企业介绍，隐藏内部质量报告
+            if (Utils.$('companyIntroPanel')) Utils.show(Utils.$('companyIntroPanel'));
+            if (Utils.$('internalReportPanel')) Utils.hide(Utils.$('internalReportPanel'));
             
             // 退出登录时清除版本选择记录
             localStorage.removeItem('selectedVersion');
