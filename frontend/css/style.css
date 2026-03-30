@@ -83,12 +83,14 @@ button {
 
 .logo-icon {
     flex-shrink: 0;
-    border: none;
-    outline: none;
-    box-shadow: none;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
     vertical-align: middle;
     object-fit: contain;
-    background: transparent;
+    padding: 0 !important;
+    margin: 0;
 }
 
 .logo-text {
