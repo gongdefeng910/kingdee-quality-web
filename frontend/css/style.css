@@ -509,10 +509,20 @@ button {
 }
 
 /* ==================== Company Intro ==================== */
+#companyIntroPanel {
+    display: flex;
+    flex-direction: column;
+}
+
+#companyIntroPanel .panel-title {
+    flex-shrink: 0;
+}
+
 .company-intro-card {
     display: flex;
     flex-direction: column;
     gap: 16px;
+    flex: 1;
 }
 
 .intro-item {
@@ -523,6 +533,7 @@ button {
     border-radius: var(--radius-sm);
     padding: 14px;
     transition: all var(--transition);
+    flex: 1;
 }
 
 .intro-item:hover {
