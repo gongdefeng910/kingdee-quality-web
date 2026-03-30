@@ -34,12 +34,18 @@ IS_PRODUCTION = os.environ.get('FLASK_ENV') == 'production'
 # 数据库
 db.init_app(app)
 
-# CORS 白名单
-allowed_origins = os.environ.get(
-    'ALLOWED_ORIGINS',
-    'http://localhost:8080,http://127.0.0.1:8080,http://localhost:5500,http://127.0.0.1:5500'
-).split(',')
-CORS(app, origins=[o.strip() for o in allowed_origins], supports_credentials=True)
+# CORS 白名单（包含 GitHub Pages 生产地址）
+default_origins = [
+    'http://localhost:8080',
+    'http://127.0.0.1:8080',
+    'http://localhost:5500',
+    'http://127.0.0.1:5500',
+    'https://gongdefeng910.github.io'
+]
+env_origins = os.environ.get('ALLOWED_ORIGINS', '')
+if env_origins:
+    default_origins.extend([o.strip() for o in env_origins.split(',') if o.strip()])
+CORS(app, origins=default_origins, supports_credentials=True, allow_headers=['Content-Type', 'Authorization'])
 
 # 速率限制
 limiter = Limiter(get_remote_address, app=app, storage_uri="memory://")
