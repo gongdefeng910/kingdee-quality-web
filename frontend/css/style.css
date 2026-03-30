@@ -82,7 +82,7 @@ button {
 .logo {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 3px;
     text-decoration: none;
     border: none !important;
     border-bottom: none !important;
