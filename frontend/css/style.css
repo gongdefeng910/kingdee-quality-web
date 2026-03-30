@@ -714,6 +714,48 @@ button {
 
 .form-group input::placeholder { color: var(--text-muted); }
 
+/* Password Toggle Button */
+.password-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-input-wrapper input {
+    padding-right: 44px;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    color: var(--text-muted);
+    background: transparent;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.password-toggle:hover {
+    color: var(--text-primary);
+    background: var(--border-light);
+}
+
+.password-toggle:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.2);
+}
+
+.password-toggle svg {
+    flex-shrink: 0;
+}
+
 .error-msg {
     color: var(--danger);
     font-size: 13px;

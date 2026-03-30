@@ -309,6 +309,30 @@
             document.addEventListener('keydown', function (e) {
                 if (e.key === 'Escape') Utils.hide(Utils.$('loginModal'));
             });
+
+            // 密码可见性切换
+            var passwordToggle = Utils.$('passwordToggle');
+            var passwordInput = Utils.$('loginPassword');
+            if (passwordToggle && passwordInput) {
+                passwordToggle.addEventListener('click', function () {
+                    var isPassword = passwordInput.type === 'password';
+                    passwordInput.type = isPassword ? 'text' : 'password';
+                    
+                    var eyeIcon = passwordToggle.querySelector('.eye-icon');
+                    var eyeOffIcon = passwordToggle.querySelector('.eye-off-icon');
+                    if (eyeIcon && eyeOffIcon) {
+                        if (isPassword) {
+                            eyeIcon.classList.add('hidden');
+                            eyeOffIcon.classList.remove('hidden');
+                            passwordToggle.setAttribute('aria-label', '隐藏密码');
+                        } else {
+                            eyeIcon.classList.remove('hidden');
+                            eyeOffIcon.classList.add('hidden');
+                            passwordToggle.setAttribute('aria-label', '显示密码');
+                        }
+                    }
+                });
+            }
         },
 
         handleLogin: function () {
