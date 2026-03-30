@@ -77,10 +77,18 @@ button {
 .logo {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 6px;
 }
 
-.logo-icon { flex-shrink: 0; }
+.logo-icon {
+    flex-shrink: 0;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    vertical-align: middle;
+    object-fit: contain;
+    background: transparent;
+}
 
 .logo-text {
     font-size: 18px;
