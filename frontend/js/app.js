@@ -383,6 +383,11 @@
             Utils.show(Utils.$('panelContent'));
 
             this.loadInternalData();
+            
+            // 管理员登录后，自动切换到对内版（优先恢复上次选择，否则默认对内版）
+            var savedVersion = localStorage.getItem('selectedVersion');
+            var targetVersion = savedVersion || 'internal';
+            this.switchVersion(targetVersion);
         },
 
         onLogout: function () {
@@ -390,11 +395,21 @@
             Utils.hide(Utils.$('userInfo'));
             Utils.hide(Utils.$('panelContent'));
             Utils.show(Utils.$('panelLocked'));
+            
+            // 退出登录时清除版本选择记录
+            localStorage.removeItem('selectedVersion');
+            
             this.switchVersion('external');
         },
 
         switchVersion: function (version) {
             this.currentVersion = version;
+            
+            // 如果已登录，保存版本选择到localStorage
+            if (Auth.isLoggedIn) {
+                localStorage.setItem('selectedVersion', version);
+            }
+            
             document.querySelectorAll('.version-btn').forEach(function (btn) {
                 var isActive = btn.dataset.version === version;
                 btn.classList.toggle('active', isActive);
