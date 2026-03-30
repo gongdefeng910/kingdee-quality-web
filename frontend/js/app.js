@@ -255,6 +255,7 @@
         currentVersion: 'external',
         publicData: null,
         internalData: null,
+        OAUTH_URL: 'https://passport.kingdee.com/passport/#/auth/oauth2/third_login?pck=ok&response_type=code&client_id=224704&redirect_uri=https%3A%2F%2Fdevops.kingdee.com%3A8000',
 
         init: function () {
             var self = this;
@@ -262,12 +263,32 @@
             this.loadPublicData();
             this.initProcessAnimation();
 
+            // 检查URL中的code参数（OAuth回调）
+            var urlParams = new URLSearchParams(window.location.search);
+            var code = urlParams.get('code');
+            if (code) {
+                // OAuth登录成功，存储登录状态并清除URL参数
+                localStorage.setItem('kingdee_logged_in', 'true');
+                localStorage.setItem('kingdee_auth_code', code);
+                // 清除URL中的code参数
+                var cleanUrl = window.location.origin + window.location.pathname;
+                window.history.replaceState({}, document.title, cleanUrl);
+            }
+
             // 检查登录状态
-            Auth.check().then(function (loggedIn) {
-                if (loggedIn) {
-                    self.onLoginSuccess();
-                }
-            });
+            var isLoggedIn = localStorage.getItem('kingdee_logged_in') === 'true';
+            if (isLoggedIn) {
+                Auth.isLoggedIn = true;
+                Auth.username = localStorage.getItem('kingdee_username') || 'admin';
+                self.onLoginSuccess();
+            } else {
+                // 同时兼容原有后端Cookie登录
+                Auth.check().then(function (loggedIn) {
+                    if (loggedIn) {
+                        self.onLoginSuccess();
+                    }
+                });
+            }
         },
 
         bindEvents: function () {
@@ -280,16 +301,10 @@
             var form = Utils.$('loginForm');
             var logoutBtn = Utils.$('logoutBtn');
 
-            if (showBtn) showBtn.addEventListener('click', function () { Utils.show(modal); });
-            if (closeBtn) closeBtn.addEventListener('click', function () { Utils.hide(modal); });
-            if (modal) modal.addEventListener('click', function (e) { if (e.target === modal) Utils.hide(modal); });
-
-            if (form) {
-                form.addEventListener('submit', function (e) {
-                    e.preventDefault();
-                    self.handleLogin();
-                });
-            }
+            // 登录按钮 → 跳转金蝶OAuth
+            if (showBtn) showBtn.addEventListener('click', function () {
+                window.location.href = self.OAUTH_URL;
+            });
 
             if (logoutBtn) logoutBtn.addEventListener('click', function () { self.handleLogout(); });
 
@@ -298,7 +313,7 @@
                 btn.addEventListener('click', function () {
                     var version = this.dataset.version;
                     if (version === 'internal' && !Auth.isLoggedIn) {
-                        Utils.show(Utils.$('loginModal'));
+                        window.location.href = self.OAUTH_URL;
                         return;
                     }
                     self.switchVersion(version);
@@ -367,6 +382,11 @@
 
         handleLogout: function () {
             var self = this;
+            // 清除金蝶OAuth登录状态
+            localStorage.removeItem('kingdee_logged_in');
+            localStorage.removeItem('kingdee_auth_code');
+            localStorage.removeItem('kingdee_username');
+            Auth.isLoggedIn = false;
             Auth.logout().then(function () {
                 self.onLogout();
                 Utils.showToast('已退出登录', 'info');
