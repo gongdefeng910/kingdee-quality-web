@@ -7,7 +7,7 @@
 
     // ===== 配置 =====
     var CONFIG = {
-        API_BASE: localStorage.getItem('apiBaseUrl') || 'http://localhost:5000',
+        API_BASE: localStorage.getItem('apiBaseUrl') || 'https://kingdee-quality-web-production.up.railway.app',
         get apiUrl() { return this.API_BASE + '/api/v1'; }
     };
 

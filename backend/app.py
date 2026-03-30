@@ -343,9 +343,11 @@ def internal_error(error):
     db.session.rollback()
     return api_response(message='服务器内部错误', code=500)
 
+# ==================== 初始化数据库（gunicorn 兼容）====================
+with app.app_context():
+    init_db()
+
 # ==================== 启动 ====================
 if __name__ == '__main__':
-    with app.app_context():
-        init_db()
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=not IS_PRODUCTION)
