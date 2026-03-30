@@ -72,6 +72,11 @@ button {
 .header-left {
     display: flex;
     align-items: center;
+    border: none !important;
+    border-bottom: none !important;
+    border-right: none !important;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 .logo {
@@ -79,6 +84,11 @@ button {
     align-items: center;
     gap: 6px;
     text-decoration: none;
+    border: none !important;
+    border-bottom: none !important;
+    border-right: none !important;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 .logo-icon {
