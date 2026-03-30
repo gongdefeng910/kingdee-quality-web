@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="金蝶小微企业云服务平台 - 质量保障体系，全流程质量管控，守护信息真实、体验流畅、服务可靠">
+    <title>金蝶 | 小微企业云服务平台</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
+</head>
+<body data-page="index">
+    <!-- 顶部导航 -->
+    <header class="header" role="banner">
+        <div class="header-left">
+            <a href="index.html" class="logo" aria-label="金蝶小微企业云服务平台首页">
+                <svg class="logo-icon" viewBox="0 0 100 100" width="36" height="36" aria-hidden="true">
+                    <circle cx="28" cy="28" r="16" fill="#0066cc"/>
+                    <circle cx="72" cy="28" r="16" fill="#00a8e8"/>
+                    <circle cx="28" cy="72" r="16" fill="#00b398"/>
+                    <circle cx="72" cy="72" r="16" fill="#9365ff"/>
+                </svg>
+                <span class="logo-text">金蝶 | 小微企业云服务平台</span>
+            </a>
+        </div>
+        <div class="header-right">
+            <div class="version-toggle" role="tablist" aria-label="版本切换">
+                <button class="version-btn active" data-version="external" role="tab" aria-selected="true" aria-controls="external-content">对外版</button>
+                <button class="version-btn" data-version="internal" role="tab" aria-selected="false" aria-controls="internal-content">对内版</button>
+            </div>
+            <div id="loginArea">
+                <button class="login-btn" id="showLoginBtn" aria-label="登录查看内部数据">
+                    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M12 17a2 2 0 100-4 2 2 0 000 4zm6-9a2 2 0 012 2v8a2 2 0 01-2 2H6a2 2 0 01-2-2v-8a2 2 0 012-2h1V6a5 5 0 0110 0v2h1zm-6-5a3 3 0 00-3 3v2h6V6a3 3 0 00-3-3z"/></svg>
+                    登录
+                </button>
+            </div>
+            <div class="user-info hidden" id="userInfo">
+                <span>欢迎，<strong id="username">admin</strong></span>
+                <button class="logout-btn" id="logoutBtn" aria-label="退出登录">退出</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero 区域 -->
+    <section class="hero-section" aria-label="质量保障概览">
+        <div class="hero-inner">
+            <h1 class="hero-title">全流程<span>质量管控</span>，守护官网可靠运行</h1>
+            <!-- 对外版描述 -->
+            <p class="hero-desc" id="heroDescExternal">
+                以全流程质量管控，确保官网信息真实准确、体验流畅稳定、服务安全合规，为客户提供可靠的数字化服务入口。
+            </p>
+            <!-- 对内版描述 -->
+            <p class="hero-desc hidden" id="heroDescInternal">
+                质量部通过全流程审核、监控与复盘，保障官网内容零重大错误、发布零事故、体验持续优化，有效规避合规与舆情风险。
+            </p>
+
+            <!-- 对外版核心成果 -->
+            <div class="hero-stats" id="heroStatsExternal" role="list" aria-label="对外核心成果">
+                <div class="hero-stat" role="listitem">
+                    <div class="hero-stat-value" id="heroRisk">--</div>
+                    <div class="hero-stat-label">产品信息真实准确</div>
+                </div>
+                <div class="hero-stat" role="listitem">
+                    <div class="hero-stat-value green" id="heroRelease">--</div>
+                    <div class="hero-stat-label">官网运行稳定可靠</div>
+                </div>
+                <div class="hero-stat" role="listitem">
+                    <div class="hero-stat-value purple" id="heroPerf">--</div>
+                    <div class="hero-stat-label">用户体验持续优化</div>
+                </div>
+                <div class="hero-stat" role="listitem">
+                    <div class="hero-stat-value blue" id="heroError">--</div>
+                    <div class="hero-stat-label">合规风险严格把控</div>
+                </div>
+            </div>
+
+            <!-- 对内版核心成果（需登录） -->
+            <div class="hero-stats-internal hidden" id="heroStatsInternal" role="list" aria-label="对内核心成果">
+                <div class="hero-stat-internal" role="listitem">
+                    <div class="hero-stat-value" id="heroInternalAudit">100%</div>
+                    <div class="hero-stat-label">内容审核覆盖率</div>
+                </div>
+                <div class="hero-stat-internal" role="listitem">
+                    <div class="hero-stat-value green" id="heroInternalRisk">--</div>
+                    <div class="hero-stat-label">累计拦截风险内容</div>
+                </div>
+                <div class="hero-stat-internal" role="listitem">
+                    <div class="hero-stat-value purple" id="heroInternalError">0</div>
+                    <div class="hero-stat-label">重大内容错误</div>
+                </div>
+                <div class="hero-stat-internal" role="listitem">
+                    <div class="hero-stat-value blue" id="heroInternalRelease">--</div>
+                    <div class="hero-stat-label">版本发布(0事故)</div>
+                </div>
+                <div class="hero-stat-internal" role="listitem">
+                    <div class="hero-stat-value green" id="heroInternalPerf">--</div>
+                    <div class="hero-stat-label">页面性能提升</div>
+                </div>
+                <div class="hero-stat-internal" role="listitem">
+                    <div class="hero-stat-value" id="heroInternalClose">100%</div>
+                    <div class="hero-stat-label">体验问题闭环率</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 质量流程步骤 -->
+    <section class="process-section" aria-label="质量管控流程">
+        <div class="process-container" role="list">
+            <div class="process-step active" role="listitem">
+                <div class="step-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13zM6 20V4h5v7h7v9H6z"/></svg>
+                </div>
+                <div>
+                    <div class="step-title">内容规范</div>
+                    <div class="step-desc">建立内容标准体系</div>
+                </div>
+            </div>
+            <div class="process-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+            </div>
+            <div class="process-step" role="listitem">
+                <div class="step-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                </div>
+                <div>
+                    <div class="step-title">多层审核</div>
+                    <div class="step-desc">多级质量审核把关</div>
+                </div>
+            </div>
+            <div class="process-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+            </div>
+            <div class="process-step" role="listitem">
+                <div class="step-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M17 1H7c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm0 18H7V5h10v14zm-4.2-5.78v1.75l3.2-2.99L12.8 9v1.7c-3.18.48-4.46 2.06-4.8 3.52.97-1.42 2.29-2.06 4.8-2z"/></svg>
+                </div>
+                <div>
+                    <div class="step-title">发布验证</div>
+                    <div class="step-desc">上线前全面验证</div>
+                </div>
+            </div>
+            <div class="process-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+            </div>
+            <div class="process-step" role="listitem">
+                <div class="step-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                </div>
+                <div>
+                    <div class="step-title">实时监控</div>
+                    <div class="step-desc">7x24 运行监控</div>
+                </div>
+            </div>
+            <div class="process-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+            </div>
+            <div class="process-step" role="listitem">
+                <div class="step-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+                </div>
+                <div>
+                    <div class="step-title">复盘优化</div>
+                    <div class="step-desc">持续改进迭代</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 主体内容区 -->
+    <main class="main-content" role="main">
+        <!-- 左侧数据看板 -->
+        <aside class="data-panel left-panel" aria-label="核心数据看板">
+            <h3 class="panel-title">
+                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+                核心数据看板
+            </h3>
+            <div class="stats-grid" role="list">
+                <div class="stat-card" role="listitem">
+                    <div class="stat-value" id="riskCount">--</div>
+                    <div class="stat-label">拦截风险内容</div>
+                    <div class="stat-trend up" aria-label="增长12%">+12%</div>
+                </div>
+                <div class="stat-card" role="listitem">
+                    <div class="stat-value" id="releaseCount">--</div>
+                    <div class="stat-label">版本发布次数</div>
+                    <div class="stat-trend up" aria-label="增长8%">+8%</div>
+                </div>
+                <div class="stat-card" role="listitem">
+                    <div class="stat-value" id="performanceBoost">--</div>
+                    <div class="stat-label">页面性能提升</div>
+                    <div class="stat-trend up" aria-label="增长15%">+15%</div>
+                </div>
+                <div class="stat-card" role="listitem">
+                    <div class="stat-value" id="errorCount">--</div>
+                    <div class="stat-label">重大内容错误</div>
+                    <div class="stat-trend down" aria-label="降低23%">-23%</div>
+                </div>
+            </div>
+            <div class="chart-container" role="img" aria-label="质量趋势图表">
+                <canvas id="trendChart"></canvas>
+            </div>
+        </aside>
+
+        <!-- 中间价值案例卡片 -->
+        <section class="case-panel center-panel" aria-label="质量价值案例">
+            <h3 class="panel-title">
+                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                质量价值案例
+            </h3>
+            <!-- 对外版案例 -->
+            <div class="case-cards" id="casesExternal">
+                <article class="case-card">
+                    <div class="case-icon blue" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+                    </div>
+                    <h4>信息可信</h4>
+                    <p>严格内容审核机制，确保产品信息真实准确，客户决策更放心</p>
+                    <div class="case-data">
+                        <span class="data-highlight">99.8%</span>
+                        <span class="data-label">信息准确率</span>
+                    </div>
+                </article>
+                <article class="case-card">
+                    <div class="case-icon green" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+                    </div>
+                    <h4>体验流畅</h4>
+                    <p>持续性能监控与优化，页面加载速度显著提升，使用感受更佳</p>
+                    <div class="case-data">
+                        <span class="data-highlight">1.2s</span>
+                        <span class="data-label">平均加载时间</span>
+                    </div>
+                </article>
+                <article class="case-card">
+                    <div class="case-icon purple" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    </div>
+                    <h4>安全稳定</h4>
+                    <p>建立多层风险拦截机制，保障平台安全稳定运行，守护品牌信任</p>
+                    <div class="case-data">
+                        <span class="data-highlight">0</span>
+                        <span class="data-label">重大安全事故</span>
+                    </div>
+                </article>
+                <article class="case-card">
+                    <div class="case-icon orange" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    </div>
+                    <h4>合规可靠</h4>
+                    <p>严守合规底线，不夸大不误导，守护产品口碑与用户信任</p>
+                    <div class="case-data">
+                        <span class="data-highlight">100%</span>
+                        <span class="data-label">合规达标率</span>
+                    </div>
+                </article>
+            </div>
+            <!-- 对内版案例（登录后可见） -->
+            <div class="case-cards hidden" id="casesInternal">
+                <article class="case-card">
+                    <div class="case-icon blue" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+                    </div>
+                    <h4>前置拦截合规风险</h4>
+                    <p>通过前置审核机制，在内容发布前有效拦截合规风险，避免事后整改</p>
+                    <div class="case-data">
+                        <span class="data-highlight" id="caseRiskIntercept">--</span>
+                        <span class="data-label">累计拦截次数</span>
+                    </div>
+                </article>
+                <article class="case-card">
+                    <div class="case-icon green" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                    </div>
+                    <h4>减少客诉降低压力</h4>
+                    <p>通过质量管控减少因信息错误导致的客户投诉，降低客服压力</p>
+                    <div class="case-data">
+                        <span class="data-highlight">85%</span>
+                        <span class="data-label">客诉减少率</span>
+                    </div>
+                </article>
+                <article class="case-card">
+                    <div class="case-icon purple" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
+                    </div>
+                    <h4>优化路径提升转化</h4>
+                    <p>优化用户访问路径，提升试用/咨询转化率，助力业务增长</p>
+                    <div class="case-data">
+                        <span class="data-highlight">+18%</span>
+                        <span class="data-label">转化率提升</span>
+                    </div>
+                </article>
+                <article class="case-card">
+                    <div class="case-icon orange" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+                    </div>
+                    <h4>避免业务风险</h4>
+                    <p>避免因信息错误导致的业务风险，保障企业声誉与客户权益</p>
+                    <div class="case-data">
+                        <span class="data-highlight">0</span>
+                        <span class="data-label">业务风险事件</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- 右侧内部专属区 -->
+        <aside class="internal-panel right-panel" aria-label="内部质量报告">
+            <div class="panel-locked" id="panelLocked">
+                <div class="lock-icon-large" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="40" height="40"><path fill="currentColor" d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                </div>
+                <p>内部专属数据区</p>
+                <span>登录后查看详细质量报告</span>
+            </div>
+            <div class="panel-content hidden" id="panelContent">
+                <h3 class="panel-title">
+                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/></svg>
+                    内部质量报告
+                </h3>
+                <div class="internal-stats" role="list">
+                    <div class="internal-stat" role="listitem">
+                        <span class="label">本周测试用例</span>
+                        <span class="value" id="weekCases">--</span>
+                    </div>
+                    <div class="internal-stat" role="listitem">
+                        <span class="label">缺陷修复率</span>
+                        <span class="value" id="fixRate">--</span>
+                    </div>
+                    <div class="internal-stat" role="listitem">
+                        <span class="label">自动化覆盖率</span>
+                        <span class="value" id="autoRate">--</span>
+                    </div>
+                    <div class="internal-stat" role="listitem">
+                        <span class="label">平均修复时长</span>
+                        <span class="value" id="fixTime">--</span>
+                    </div>
+                </div>
+                <div class="chart-container" role="img" aria-label="用例执行分布图">
+                    <canvas id="internalChart"></canvas>
+                </div>
+                <div class="quick-actions">
+                    <h4>快捷操作</h4>
+                    <a href="admin.html" class="action-btn" aria-label="进入数据管理后台">
+                        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.488.488 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L3.16 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58z M12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+                        数据管理
+                    </a>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- 底部承诺 -->
+    <footer class="footer" role="contentinfo">
+        <div class="commitment-tags" aria-label="质量承诺">
+            <div class="tag">
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                数据精准
+            </div>
+            <div class="tag">
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                流程合规
+            </div>
+            <div class="tag">
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                响应及时
+            </div>
+        </div>
+        <p class="copyright">&copy; 2026 金蝶软件（中国）有限公司 版权所有</p>
+    </footer>
+
+    <!-- 登录弹窗 -->
+    <div class="modal-overlay hidden" id="loginModal" role="dialog" aria-modal="true" aria-labelledby="loginModalTitle">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="loginModalTitle">管理员登录</h3>
+                <button class="close-btn" id="closeLoginBtn" aria-label="关闭登录弹窗">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm" autocomplete="off">
+                    <div class="form-group">
+                        <label for="loginUsername">用户名</label>
+                        <input type="text" id="loginUsername" placeholder="请输入用户名" required autocomplete="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">密码</label>
+                        <input type="password" id="loginPassword" placeholder="请输入密码" required autocomplete="current-password">
+                    </div>
+                    <div class="error-msg hidden" id="loginError" role="alert"></div>
+                    <button type="submit" class="submit-btn" id="loginSubmitBtn">登录</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据管理 - 金蝶 | 小微企业云服务平台</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
+</head>
+<body data-page="admin">
+    <!-- 顶部导航 -->
+    <header class="header" role="banner">
+        <div class="header-left">
+            <a href="index.html" class="logo" aria-label="返回官网首页">
+                <svg class="logo-icon" viewBox="0 0 100 100" width="36" height="36" aria-hidden="true">
+                    <circle cx="28" cy="28" r="16" fill="#0066cc"/>
+                    <circle cx="72" cy="28" r="16" fill="#00a8e8"/>
+                    <circle cx="28" cy="72" r="16" fill="#00b398"/>
+                    <circle cx="72" cy="72" r="16" fill="#9365ff"/>
+                </svg>
+                <span class="logo-text">金蝶 | 小微企业云服务平台</span>
+            </a>
+        </div>
+        <div class="header-right">
+            <a href="index.html" style="font-size:13px;color:var(--text-secondary);">返回官网</a>
+            <div class="user-info" id="userInfo">
+                <span>欢迎，<strong id="username">admin</strong></span>
+                <button class="logout-btn" id="logoutBtn" aria-label="退出登录">退出</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 管理页面主体 -->
+    <main class="admin-main" role="main">
+        <aside class="admin-sidebar" role="navigation" aria-label="管理菜单">
+            <div class="sidebar-menu" role="tablist">
+                <button class="menu-item active" data-section="dashboard" role="tab" aria-selected="true" aria-controls="dashboardSection">
+                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+                    数据看板
+                </button>
+                <button class="menu-item" data-section="metrics" role="tab" aria-selected="false" aria-controls="metricsSection">
+                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+                    指标管理
+                </button>
+                <button class="menu-item" data-section="settings" role="tab" aria-selected="false" aria-controls="settingsSection">
+                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.488.488 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L3.16 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+                    系统设置
+                </button>
+            </div>
+        </aside>
+
+        <div class="admin-content">
+            <!-- 数据看板 -->
+            <section class="content-section active" id="dashboardSection" role="tabpanel">
+                <h2 class="section-title">数据看板</h2>
+                <div class="admin-stats-grid">
+                    <div class="admin-stat-card">
+                        <div class="stat-header">
+                            <span class="stat-name">拦截风险内容</span>
+                            <span class="stat-edit" data-key="risk_count" role="button" tabindex="0">编辑</span>
+                        </div>
+                        <div class="stat-number" id="adminRiskCount">--</div>
+                        <div class="stat-change positive">+12% 较上月</div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <div class="stat-header">
+                            <span class="stat-name">版本发布次数</span>
+                            <span class="stat-edit" data-key="release_count" role="button" tabindex="0">编辑</span>
+                        </div>
+                        <div class="stat-number" id="adminReleaseCount">--</div>
+                        <div class="stat-change positive">+8% 较上月</div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <div class="stat-header">
+                            <span class="stat-name">页面性能提升</span>
+                            <span class="stat-edit" data-key="performance_boost" role="button" tabindex="0">编辑</span>
+                        </div>
+                        <div class="stat-number" id="adminPerformanceBoost">--</div>
+                        <div class="stat-change positive">+15% 较上月</div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <div class="stat-header">
+                            <span class="stat-name">重大内容错误</span>
+                            <span class="stat-edit" data-key="error_count" role="button" tabindex="0">编辑</span>
+                        </div>
+                        <div class="stat-number" id="adminErrorCount">--</div>
+                        <div class="stat-change negative">-23% 较上月</div>
+                    </div>
+                </div>
+                <div class="admin-charts">
+                    <div class="chart-card">
+                        <h3>质量趋势分析</h3>
+                        <div style="height:260px;"><canvas id="adminTrendChart"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>缺陷分布统计</h3>
+                        <div style="height:260px;"><canvas id="adminPieChart"></canvas></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 指标管理 -->
+            <section class="content-section" id="metricsSection" role="tabpanel">
+                <h2 class="section-title">指标管理</h2>
+                <div class="metrics-form">
+                    <div class="form-card">
+                        <h3>核心指标设置</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="editRiskCount">拦截风险内容</label>
+                                <input type="number" id="editRiskCount" placeholder="输入数值" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="editReleaseCount">版本发布次数</label>
+                                <input type="number" id="editReleaseCount" placeholder="输入数值" min="0">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="editPerformanceBoost">页面性能提升 (%)</label>
+                                <input type="number" id="editPerformanceBoost" placeholder="输入百分比" min="0" max="100" step="0.1">
+                            </div>
+                            <div class="form-group">
+                                <label for="editErrorCount">重大内容错误</label>
+                                <input type="number" id="editErrorCount" placeholder="输入数值" min="0">
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button class="btn-primary" id="savePublicBtn">保存修改</button>
+                            <button class="btn-secondary" id="resetPublicBtn">重置</button>
+                        </div>
+                    </div>
+                    <div class="form-card">
+                        <h3>内部指标设置</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="editWeekCases">本周测试用例</label>
+                                <input type="number" id="editWeekCases" placeholder="输入数值" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="editFixRate">缺陷修复率 (%)</label>
+                                <input type="number" id="editFixRate" placeholder="输入百分比" min="0" max="100" step="0.1">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="editAutoRate">自动化覆盖率 (%)</label>
+                                <input type="number" id="editAutoRate" placeholder="输入百分比" min="0" max="100" step="0.1">
+                            </div>
+                            <div class="form-group">
+                                <label for="editFixTime">平均修复时长 (小时)</label>
+                                <input type="number" id="editFixTime" placeholder="输入小时数" min="0" step="0.1">
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button class="btn-primary" id="saveInternalBtn">保存修改</button>
+                            <button class="btn-secondary" id="resetInternalBtn">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 系统设置 -->
+            <section class="content-section" id="settingsSection" role="tabpanel">
+                <h2 class="section-title">系统设置</h2>
+                <div class="settings-form">
+                    <div class="form-card">
+                        <h3>API 配置</h3>
+                        <div class="form-group">
+                            <label for="apiBaseUrl">后端 API 地址</label>
+                            <input type="url" id="apiBaseUrl" placeholder="https://your-api.onrender.com">
+                            <p class="form-hint">部署到 Render 后，请将此处替换为您的实际 API 地址（格式：https://xxx.onrender.com）</p>
+                        </div>
+                        <div class="form-actions">
+                            <button class="btn-primary" id="saveApiBtn">保存配置</button>
+                        </div>
+                    </div>
+                    <div class="form-card">
+                        <h3>系统信息</h3>
+                        <div class="info-list">
+                            <div class="info-item">
+                                <span class="info-label">系统版本</span>
+                                <span class="info-value">v2.0.0</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">前端部署</span>
+                                <span class="info-value">GitHub Pages</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">后端部署</span>
+                                <span class="info-value">Render</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">API 规范</span>
+                                <span class="info-value">RESTful /api/v1/</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">认证方式</span>
+                                <span class="info-value">JWT HttpOnly Cookie</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">数据库</span>
+                                <span class="info-value">SQLite (兼容 PostgreSQL)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- 快速编辑弹窗 -->
+    <div class="modal-overlay hidden" id="editModal" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
+        <div class="modal modal-small">
+            <div class="modal-header">
+                <h3 id="editModalTitle">编辑指标</h3>
+                <button class="close-btn" id="closeEditBtn" aria-label="关闭编辑弹窗">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <div class="form-group">
+                        <label for="editValue" id="editLabel">数值</label>
+                        <input type="number" id="editValue" placeholder="请输入新数值" required>
+                        <input type="hidden" id="editKey">
+                    </div>
+                    <button type="submit" class="submit-btn">保存</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
