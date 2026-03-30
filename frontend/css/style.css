@@ -340,9 +340,9 @@ button {
 .main-content {
     display: grid;
     grid-template-columns: 300px 1fr 300px;
-    gap: 24px;
-    padding: 24px 40px 40px;
-    max-width: 1440px;
+    gap: 16px;
+    padding: 20px 24px 40px;
+    max-width: 100%;
     margin: 0 auto;
 }
 
@@ -365,21 +365,21 @@ button {
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
-    padding: 24px;
+    padding: 18px;
     box-shadow: var(--shadow-sm);
 }
 
 .stats-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 20px;
+    gap: 10px;
+    margin-bottom: 16px;
 }
 
 .stat-card {
     background: var(--bg-page);
     border-radius: var(--radius-sm);
-    padding: 16px;
+    padding: 12px;
     text-align: center;
     transition: all var(--transition);
     border: 1px solid transparent;
@@ -437,21 +437,21 @@ button {
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
-    padding: 24px;
+    padding: 18px;
     box-shadow: var(--shadow-sm);
 }
 
 .case-cards {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    gap: 12px;
 }
 
 .case-card {
     background: var(--bg-page);
     border: 1px solid var(--border-light);
     border-radius: var(--radius-md);
-    padding: 22px;
+    padding: 16px;
     transition: all var(--transition);
 }
 
