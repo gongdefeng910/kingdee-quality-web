@@ -255,7 +255,7 @@
         currentVersion: 'external',
         publicData: null,
         internalData: null,
-        OAUTH_URL: 'https://passport.kingdee.com/passport/#/auth/oauth/third_login?pck=ok&response_type=code&client_id=224704&redirect_uri=https%3A%2F%2Fdevops.kingdee.com',
+        OAUTH_URL: 'https://passport.kingdee.com/passport/#/auth/oauth/third_login?pck=ok&response_type=code&client_id=224704&redirect_uri=https%3A%2F%2Fdevops.kingdee.com%3A8080',
 
         init: function () {
             var self = this;
