@@ -381,8 +381,7 @@
                 Auth.isLoggedIn = true;
                 Utils.hide(Utils.$('loginModal'));
                 Utils.showToast('登录成功');
-                self.updateLoginUI(true);
-                self.switchVersion('internal');
+                self.onLoginSuccess();
             } else {
                 errorEl.textContent = '用户名或密码错误';
                 Utils.show(errorEl);
