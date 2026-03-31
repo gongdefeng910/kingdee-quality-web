@@ -301,12 +301,9 @@
             var form = Utils.$('loginForm');
             var logoutBtn = Utils.$('logoutBtn');
 
-            // 登录按钮 → 本地模拟登录
+            // 登录按钮 → 跳转金蝶OAuth
             if (showBtn) showBtn.addEventListener('click', function () {
-                localStorage.setItem('kingdee_logged_in', 'true');
-                Auth.isLoggedIn = true;
-                self.updateLoginUI(true);
-                self.switchVersion('internal');
+                window.location.href = self.OAUTH_URL;
             });
 
             if (logoutBtn) logoutBtn.addEventListener('click', function () { self.handleLogout(); });
@@ -316,10 +313,7 @@
                 btn.addEventListener('click', function () {
                     var version = this.dataset.version;
                     if (version === 'internal' && !Auth.isLoggedIn) {
-                        localStorage.setItem('kingdee_logged_in', 'true');
-                        Auth.isLoggedIn = true;
-                        self.updateLoginUI(true);
-                        self.switchVersion('internal');
+                        window.location.href = self.OAUTH_URL;
                         return;
                     }
                     self.switchVersion(version);
