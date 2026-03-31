@@ -255,7 +255,7 @@
         currentVersion: 'external',
         publicData: null,
         internalData: null,
-        OAUTH_URL: 'https://passport.kingdee.com/passport/#/auth/oauth/third_login?pck=ok&response_type=code&client_id=224704&redirect_uri=http%3A%2F%2Fdevops.kingdee.com%3A8080',
+        OAUTH_URL: 'http://172.20.58.179:8080',
 
         init: function () {
             var self = this;
@@ -301,9 +301,12 @@
             var form = Utils.$('loginForm');
             var logoutBtn = Utils.$('logoutBtn');
 
-            // 登录按钮 → 跳转金蝶OAuth
+            // 登录按钮 → 本地模拟登录
             if (showBtn) showBtn.addEventListener('click', function () {
-                window.location.href = self.OAUTH_URL;
+                localStorage.setItem('kingdee_logged_in', 'true');
+                Auth.isLoggedIn = true;
+                self.updateLoginUI(true);
+                self.switchVersion('internal');
             });
 
             if (logoutBtn) logoutBtn.addEventListener('click', function () { self.handleLogout(); });
@@ -313,7 +316,10 @@
                 btn.addEventListener('click', function () {
                     var version = this.dataset.version;
                     if (version === 'internal' && !Auth.isLoggedIn) {
-                        window.location.href = self.OAUTH_URL;
+                        localStorage.setItem('kingdee_logged_in', 'true');
+                        Auth.isLoggedIn = true;
+                        self.updateLoginUI(true);
+                        self.switchVersion('internal');
                         return;
                     }
                     self.switchVersion(version);
