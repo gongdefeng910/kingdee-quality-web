@@ -279,15 +279,8 @@
             var isLoggedIn = localStorage.getItem('kingdee_logged_in') === 'true';
             if (isLoggedIn) {
                 Auth.isLoggedIn = true;
-                Auth.username = localStorage.getItem('kingdee_username') || 'admin';
+                Auth.username = 'admin';
                 self.onLoginSuccess();
-            } else {
-                // 同时兼容原有后端Cookie登录
-                Auth.check().then(function (loggedIn) {
-                    if (loggedIn) {
-                        self.onLoginSuccess();
-                    }
-                });
             }
         },
 
@@ -391,16 +384,10 @@
         },
 
         handleLogout: function () {
-            var self = this;
-            // 清除金蝶OAuth登录状态
             localStorage.removeItem('kingdee_logged_in');
-            localStorage.removeItem('kingdee_auth_code');
-            localStorage.removeItem('kingdee_username');
             Auth.isLoggedIn = false;
-            Auth.logout().then(function () {
-                self.onLogout();
-                Utils.showToast('已退出登录', 'info');
-            });
+            this.onLogout();
+            Utils.showToast('已退出登录', 'info');
         },
 
         onLoginSuccess: function () {
@@ -470,14 +457,8 @@
         },
 
         loadPublicData: function () {
-            var self = this;
-            API.getPublicMetrics().then(function (res) {
-                self.publicData = res.data;
-                self.renderPublicData(res.data);
-            }).catch(function () {
-                self.publicData = DEFAULTS.public;
-                self.renderPublicData(DEFAULTS.public);
-            });
+            this.publicData = DEFAULTS.public;
+            this.renderPublicData(DEFAULTS.public);
         },
 
         renderPublicData: function (d) {
@@ -505,14 +486,8 @@
         },
 
         loadInternalData: function () {
-            var self = this;
-            API.getInternalMetrics().then(function (res) {
-                self.internalData = res.data;
-                self.renderInternalData(res.data);
-            }).catch(function () {
-                self.internalData = DEFAULTS.internal;
-                self.renderInternalData(DEFAULTS.internal);
-            });
+            this.internalData = DEFAULTS.internal;
+            this.renderInternalData(DEFAULTS.internal);
         },
 
         renderInternalData: function (d) {
@@ -549,18 +524,19 @@
 
         init: function () {
             var self = this;
-            // 检查登录
-            Auth.check().then(function (loggedIn) {
-                if (!loggedIn) {
-                    alert('请先登录');
-                    window.location.href = 'index.html';
-                    return;
-                }
-                Utils.$('username').textContent = Auth.username || 'admin';
-                self.loadAllData();
-                self.initChartsWhenReady();
-                self.bindEvents();
-            });
+            // 检查登录状态
+            var isLoggedIn = localStorage.getItem('kingdee_logged_in') === 'true';
+            if (!isLoggedIn) {
+                alert('请先登录');
+                window.location.href = 'index.html';
+                return;
+            }
+            Auth.isLoggedIn = true;
+            Auth.username = 'admin';
+            Utils.$('username').textContent = 'admin';
+            self.loadAllData();
+            self.initChartsWhenReady();
+            self.bindEvents();
         },
 
         bindEvents: function () {
@@ -568,9 +544,9 @@
 
             // 退出
             Utils.$('logoutBtn').addEventListener('click', function () {
-                Auth.logout().then(function () {
-                    window.location.href = 'index.html';
-                });
+                localStorage.removeItem('kingdee_logged_in');
+                Auth.isLoggedIn = false;
+                window.location.href = 'index.html';
             });
 
             // 菜单切换
@@ -740,24 +716,12 @@
         },
 
         loadAllData: function () {
-            var self = this;
-            API.getPublicMetrics().then(function (res) {
-                self.publicData = res.data;
-                self.renderDashboard(res.data);
-                self.fillPublicForm(res.data);
-            }).catch(function () {
-                self.publicData = DEFAULTS.public;
-                self.renderDashboard(DEFAULTS.public);
-                self.fillPublicForm(DEFAULTS.public);
-            });
+            this.publicData = DEFAULTS.public;
+            this.renderDashboard(DEFAULTS.public);
+            this.fillPublicForm(DEFAULTS.public);
 
-            API.getInternalMetrics().then(function (res) {
-                self.internalData = res.data;
-                self.fillInternalForm(res.data);
-            }).catch(function () {
-                self.internalData = DEFAULTS.internal;
-                self.fillInternalForm(DEFAULTS.internal);
-            });
+            this.internalData = DEFAULTS.internal;
+            this.fillInternalForm(DEFAULTS.internal);
         },
 
         renderDashboard: function (d) {
@@ -782,7 +746,6 @@
         },
 
         savePublicMetrics: function () {
-            var self = this;
             var data = {
                 risk_count: parseInt(Utils.$('editRiskCount').value) || 0,
                 release_count: parseInt(Utils.$('editReleaseCount').value) || 0,
@@ -790,17 +753,12 @@
                 error_count: parseInt(Utils.$('editErrorCount').value) || 0
             };
 
-            API.updatePublicMetrics(data).then(function () {
-                self.publicData = data;
-                self.renderDashboard(data);
-                Utils.showToast('核心指标保存成功');
-            }).catch(function (err) {
-                Utils.showToast(err.message || '保存失败', 'error');
-            });
+            this.publicData = data;
+            this.renderDashboard(data);
+            Utils.showToast('核心指标保存成功');
         },
 
         saveInternalMetrics: function () {
-            var self = this;
             var data = {
                 week_cases: parseInt(Utils.$('editWeekCases').value) || 0,
                 fix_rate: parseFloat(Utils.$('editFixRate').value) || 0,
@@ -808,12 +766,8 @@
                 fix_time: parseFloat(Utils.$('editFixTime').value) || 0
             };
 
-            API.updateInternalMetrics(data).then(function () {
-                self.internalData = data;
-                Utils.showToast('内部指标保存成功');
-            }).catch(function (err) {
-                Utils.showToast(err.message || '保存失败', 'error');
-            });
+            this.internalData = data;
+            Utils.showToast('内部指标保存成功');
         },
 
         openEditModal: function (key) {
@@ -833,19 +787,12 @@
         saveEdit: function () {
             var key = Utils.$('editKey').value;
             var value = parseFloat(Utils.$('editValue').value) || 0;
-            var data = {};
-            data[key] = value;
 
-            var self = this;
-            API.updatePublicMetrics(data).then(function () {
-                self.publicData[key] = value;
-                self.renderDashboard(self.publicData);
-                self.fillPublicForm(self.publicData);
-                Utils.hide(Utils.$('editModal'));
-                Utils.showToast('保存成功');
-            }).catch(function (err) {
-                Utils.showToast(err.message || '保存失败', 'error');
-            });
+            this.publicData[key] = value;
+            this.renderDashboard(this.publicData);
+            this.fillPublicForm(this.publicData);
+            Utils.hide(Utils.$('editModal'));
+            Utils.showToast('保存成功');
         },
 
         saveApiUrl: function () {
