@@ -301,12 +301,18 @@
             var form = Utils.$('loginForm');
             var logoutBtn = Utils.$('logoutBtn');
 
-            // 登录按钮 → 本地模拟登录
+            // 登录按钮 → 弹出登录弹窗
             if (showBtn) showBtn.addEventListener('click', function () {
-                localStorage.setItem('kingdee_logged_in', 'true');
-                Auth.isLoggedIn = true;
-                self.updateLoginUI(true);
-                self.switchVersion('internal');
+                Utils.show(modal);
+            });
+
+            if (closeBtn) closeBtn.addEventListener('click', function () {
+                Utils.hide(modal);
+            });
+
+            if (form) form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                self.handleLogin();
             });
 
             if (logoutBtn) logoutBtn.addEventListener('click', function () { self.handleLogout(); });
@@ -316,10 +322,7 @@
                 btn.addEventListener('click', function () {
                     var version = this.dataset.version;
                     if (version === 'internal' && !Auth.isLoggedIn) {
-                        localStorage.setItem('kingdee_logged_in', 'true');
-                        Auth.isLoggedIn = true;
-                        self.updateLoginUI(true);
-                        self.switchVersion('internal');
+                        Utils.show(modal);
                         return;
                     }
                     self.switchVersion(version);
@@ -373,17 +376,19 @@
             Utils.hide(errorEl);
 
             var self = this;
-            Auth.login(username, password).then(function () {
+            if (username === 'admin' && password === 'kingdee2026#') {
+                localStorage.setItem('kingdee_logged_in', 'true');
+                Auth.isLoggedIn = true;
                 Utils.hide(Utils.$('loginModal'));
                 Utils.showToast('登录成功');
-                self.onLoginSuccess();
-            }).catch(function (err) {
-                errorEl.textContent = err.message || '用户名或密码错误';
+                self.updateLoginUI(true);
+                self.switchVersion('internal');
+            } else {
+                errorEl.textContent = '用户名或密码错误';
                 Utils.show(errorEl);
-            }).finally(function () {
-                submitBtn.disabled = false;
-                submitBtn.textContent = '登录';
-            });
+            }
+            submitBtn.disabled = false;
+            submitBtn.textContent = '登录';
         },
 
         handleLogout: function () {
